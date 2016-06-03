@@ -37,6 +37,15 @@
        - "credential_store" 
        - "workflow_catalog" 
 
+   - name: give airavata user priviliges
+     mysql_user: name=airavata password='airavata'  priv={{ item }}.*:ALL state=present 
+     with_items:
+       - "app_catalog" 
+       - "experiment_catalog" 
+       - "data_catalog" 
+       - "credential_store" 
+       - "workflow_catalog" 
+
    vars_prompt:
     - name: mysql_pass
       prompt: "Enter your mysql root password"

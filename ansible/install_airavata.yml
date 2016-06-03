@@ -1,0 +1,13 @@
+
+---
+ - hosts: headnode
+   tasks:
+
+   - name: clone airavata repo
+     git: repo=https://github.com/apache/airavata.git
+          dest=/opt/LocalAiravata
+  
+   - name: build airavata
+     command: /bin/bash -c "mvn clean install 2>&1 > airavata_build.log"
+     args:
+       chdir: /opt/LocalAiravata

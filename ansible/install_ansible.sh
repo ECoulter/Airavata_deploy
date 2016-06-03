@@ -7,7 +7,7 @@ pip install paramiko httplib2 six pexpect==3.3
 #moved this after lib installations
 git clone git://github.com/ansible/ansible.git --recursive
 source ./ansible/hacking/env-setup -q
-echo -e "\nsource ./ansible/hacking/env-setup -q" >> .bashrc
+echo -e "\nsource ./ansible/hacking/env-setup -q \n export MAVEN_OPTS=i\"-Xmx512Mi\"" >> .bashrc
 echo "# Ansible Inventory" > inventory
 echo "[headnode]" >> inventory
 echo "localhost ansible_connection=local" >> inventory

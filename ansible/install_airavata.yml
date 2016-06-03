@@ -8,6 +8,6 @@
           dest=/opt/LocalAiravata
   
    - name: build airavata
-     command: /bin/bash -c "mvn clean install 2>&1 > airavata_build.log"
+     command: /bin/bash -c "export MAVEN_OPTS="-Xmx512M"; mvn clean install 2>&1 > airavata_build.log"
      args:
        chdir: /opt/LocalAiravata

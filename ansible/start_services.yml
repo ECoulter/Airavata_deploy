@@ -1,0 +1,44 @@
+
+---
+ - hosts: headnode
+   tasks:
+
+   - name: ensure rabbitmq server starts on boot
+     service: name=rabbitmq-server enabled=yes
+
+   - name: start rabbitmq server
+     service: name=rabbitmq-server state=started 
+  
+   - name: start mariadb
+     service: name=mariadb state=started
+
+   - name: mysql_secure_installation
+     expect:
+       command: /bin/bash -c "mysql_secure_installation | tee /root/test.txt"
+       responses:
+         (?i)current password for root: 
+           - "\n"
+           - "{{ mysql_pass }}"
+         (?i)Set root password: "Y"
+         (?i)Change the root password: "n"
+         (?i)New password: "{{ mysql_pass }}"
+         (?i)Re-enter new password: "{{ mysql_pass }}"
+         (?i)Remove anonymous users: "Y"
+         (?i)Disallow root login remotely: "Y"
+         (?i)Remove test database and access to it: "Y"
+         (?i)Reload privilege tables now: "Y"
+ 
+   - name: create databases for airavata
+     mysql_db: name={{ item }} state=present login_user="root" login_password="{{ mysql_pass }}"
+     with_items:
+       - "app_catalog" 
+       - "experiment_catalog" 
+       - "data_catalog" 
+       - "credential_store" 
+       - "workflow_catalog" 
+
+   vars_prompt:
+    - name: mysql_pass
+      prompt: "Enter your mysql root password"
+      private: yes
+

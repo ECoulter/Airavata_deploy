@@ -1,8 +1,10 @@
+
 ---
  - hosts: headnode
    tasks:
+
    - name: install EPEL repo
-     yum: name=epel-repo state=present
+     yum: name=epel-release state=present
 
    - name: install java and other deps (starting from CentOS minimal!)
      yum: name={{ item }} state=latest
@@ -12,18 +14,16 @@
        - "maven"
        - "mariadb-server"
        - "wget"
+       - "MySQL-python"
    
-   - name: update
-     shell: "yum -y update --skip-broken"
+   - name: get rabbitmq rpm key
+     rpm_key: key=https://www.rabbitmq.com/rabbitmq-release-signing-key.asc state=present
 
-   - name: create /opt/rabbitmq_server
-     file: path={{ rabbit_mq_dir }} state=directory mode=0755
+   - name: install rabbitmq via rpm
+     yum: name=https://www.rabbitmq.com/releases/rabbitmq-server/v{{ rabbit_mq_version }}/rabbitmq-server-{{ rabbit_mq_version }}-1.noarch.rpm state=present
 
-   - name: get rabbit_mq tar file
-     unarchive: src=https://www.rabbitmq.com/releases/rabbitmq-server/v{{ rabbit_mq_version }}/{{ rabbit_mq_tar }} dest={{ rabbit_mq_dir }} copy=no
 
-   - vars:
+   vars:
      java_version: 1.8.0
-     rabbit_mq_dir: "/opt/rabbitmq_server"
      rabbit_mq_version: 3.4.1
-     rabbit_mq_tar: "rabbitmq-server-generic-unix-${rabbit_mq_version}.tar.gz"
+     rabbit_mq_tar: "rabbitmq-server-generic-unix-{{ rabbit_mq_version }}.tar.gz"

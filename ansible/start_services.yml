@@ -8,6 +8,19 @@
 
    - name: start rabbitmq server
      service: name=rabbitmq-server state=started 
+
+   - name: add rabbbitmq vhost 
+     rabbitmq_vhost: name=messaging state=present
+
+   - name: add rabbitmq user (airavata)
+     rabbitmq_user: 
+       name=airavata 
+       password=airavata 
+       vhost=messaging 
+       configure_priv="."
+       read_priv="."
+       write_priv="."
+       state=present
   
    - name: start mariadb
      service: name=mariadb state=started
@@ -38,7 +51,7 @@
        - "workflow_catalog" 
 
    - name: give airavata user priviliges
-     mysql_user: name=airavata password='airavata'  priv={{ item }}.*:ALL state=present 
+     mysql_user: name=airavata password='airavata'  priv={{ item }}.*:ALL state=present login_user="root" login_password={{ mysql_pass }}
      with_items:
        - "app_catalog" 
        - "experiment_catalog" 

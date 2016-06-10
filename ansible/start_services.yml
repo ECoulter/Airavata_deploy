@@ -3,6 +3,8 @@
  - hosts: headnode
    tasks:
 
+#so, if I do the following three by hand, it WORKS.
+
    - name: ensure rabbitmq server starts on boot
      service: name=rabbitmq-server enabled=yes
 
@@ -63,4 +65,5 @@
     - name: mysql_pass
       prompt: "Enter your mysql root password"
       private: yes
+      deafult: thisisatest111
 

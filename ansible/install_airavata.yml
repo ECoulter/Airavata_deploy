@@ -15,8 +15,39 @@
 
    - name: unpack tar file
      unarchive: src={{ airavata_archive_path }} dest={{ airavata_install_root }} copy=no
+     args:
+       creates: "{{ airavata_snap_dir }}"
+
+   - name: generate key
+     expect:
+       command: keytool -genseckey -alias airavata -keyalg AES -keysize 128 -storetype jceks -keystore {{ airavata_install_root }}airavata_sym.jks
+       responses:
+         (?i)Enter keystore password: "airavata"
+         (?i)Re-enter new password: "airavata"
+         (?i)(RETURN if same as keystore password): "\n"
+     args:
+       chdir: "{{ airavata_install_root }}"
+       creates: "{{ airavata_install_root }}airavata_sym.jks"
+
+   - template: src=./config/airavata-server_properties.j2 dest="{{ airavata_snap_dir }}bin/airavata-server.properties" backup=yes
+
+   - name: download Zookeeper
+     get_url: url=http://www.us.apache.org/dist/zookeeper/zookeeper-{{ zookeeper_version }}/zookeeper-{{ zookeeper_version }}.tar.gz dest={{ airavata_install_root }} 
+
+   - name: install zookeeper
+     unarchive: src={{ airavata_install_root }}zookeeper-{{ zookeeper_version }}.tar.gz dest={{ airavata_install_root }}
+
+   - name: setup zookeeper conf
+     command: mv zoo_sample.cfg zoo.cfg  
+     args:
+       chdir: "{{ zookeeper_dir }}/conf/"
+       creates: "{{ zookeeper_dir }}/conf/zoo.cfg"
 
    vars:
-     airavata_install_root: /opt/LocalAiravata
+     airavata_install_root: /opt/LocalAiravata/
      airavata_version: 0.16
-     airavata_archive_path: "{{ airavata_install_root }}"/distribution/target/apache-airavata-server-0.16-SNAPSHOT-bin.tar.gz
+     zookeeper_version: 3.4.8
+     airavata_archive_path: "{{ airavata_install_root }}distribution/target/apache-airavata-server-{{ airavata_version }}-SNAPSHOT-bin.tar.gz"
+     airavata_snap_dir: "{{ airavata_install_root }}apache-airavata-server-{{ airavata_version }}-SNAPSHOT/"
+     airavata_keystore: "{{ airavata_snap_dir }}bin/airavata.jks"
+     zookeeper_dir: "{{ airavata_install_root }}zookeeper-{{ zookeeper_version }}/"

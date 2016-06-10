@@ -4,23 +4,27 @@
    tasks:
 
    - name: ensure rabbitmq server starts on boot
-     service: name=rabbitmq-server enabled=yes
+     command: systemctl enable rabbitmq-server
+#     service: name=rabbitmq-server enabled=yes
+     
 
    - name: start rabbitmq server
-     service: name=rabbitmq-server state=started 
+     command: rabbitmqctl start -detached
+#     service: name=rabbitmq-server state=started 
 
    - name: add rabbbitmq vhost 
-     rabbitmq_vhost: name=messaging state=present
+     command: rabbitmqctl add_vhost messaging
+#     rabbitmq_vhost: name=messaging state=present
 
    - name: add rabbitmq user (airavata)
-     rabbitmq_user: 
-       name=airavata 
-       password=airavata 
-       vhost=messaging 
-       configure_priv="."
-       read_priv="."
-       write_priv="."
-       state=present
+#     rabbitmq_user: 
+#       name=airavata 
+#       password=airavata 
+#       vhost=messaging 
+#       configure_priv="."
+#       read_priv="."
+#       write_priv="."
+#       state=present
   
    - name: start mariadb
      service: name=mariadb state=started

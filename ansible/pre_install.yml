@@ -10,20 +10,23 @@
      yum: name={{ item }} state=latest
      with_items:
        - "java-{{ java_version }}-openjdk-devel"
-       - "erlang"
        - "maven"
        - "mariadb-server"
        - "wget"
        - "MySQL-python"
-   
+
    - name: get rabbitmq rpm key
      rpm_key: key=https://www.rabbitmq.com/rabbitmq-release-signing-key.asc state=present
 
+   - name: get erlang from rabbitmq
+     yum: name=https://www.rabbitmq.com/releases/erlang/erlang-{{ rabbitmq_erlang_version }}.el7.centos.x86_64.rpm state=present
+   
    - name: install rabbitmq via rpm
-     yum: name=https://www.rabbitmq.com/releases/rabbitmq-server/v{{ rabbit_mq_version }}/rabbitmq-server-{{ rabbit_mq_version }}-1.noarch.rpm state=present
+     yum: name=https://www.rabbitmq.com/releases/rabbitmq-server/v{{ rabbitmq_version }}/rabbitmq-server-{{ rabbitmq_version }}-1.noarch.rpm state=present
 
 
    vars:
      java_version: 1.8.0
-     rabbit_mq_version: 3.4.1
-     rabbit_mq_tar: "rabbitmq-server-generic-unix-{{ rabbit_mq_version }}.tar.gz"
+     rabbitmq_version: 3.6.2
+     rabbitmq_erlang_version: 18.3-1
+#     rabbitmq_tar: "rabbitmq-server-generic-unix-{{ rabbitmq_version }}.tar.gz"

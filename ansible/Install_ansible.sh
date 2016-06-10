@@ -17,3 +17,6 @@ mv inventory /etc/ansible/hosts
 echo -e "[defaults]" > /etc/ansible/ansible.cfg
 echo "retry_files_enabled = False # Do not create them" >> /etc/ansible/ansible.cfg
 ./ansible/bin/ansible headnode -a "/bin/hostname"
+
+echo -e "Please make sure to disble selinux (ONLY FOR TESTING!)\n " 
+echo -e "Also make sure to set your network interfaces onboot=yes! \n"

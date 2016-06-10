@@ -11,7 +11,7 @@
      
 
    - name: start rabbitmq server
-     command: rabbitmqctl start -detached
+     command: systemctl start rabbitmq-server
 #     service: name=rabbitmq-server state=started 
 
    - name: add rabbbitmq vhost 

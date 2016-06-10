@@ -22,5 +22,7 @@ To try this out on VirtualBox:
   3. make sure your ethernet interfaces working & will come back on boot (in /etc/sysconfig/network-scripts/ifcfg-enp0s? change    onboot=no to onboot=yes)
     - check interface names with "ip addr"
     - bring them up with ifup enp0s3 (for example)
-  4. Now, reboot to fully disable selinux
+  4. Now, reboot to fully disable selinux - 
+11.check ip addr when it comes back, should be something like 192.168.56.101
+  - You should be able to ssh in to your VM from your standard terminal - the interface through VirtualBox is pretty rough, and hard to get nice features like copy-paste from your host machine working. 
 11. Now, yum install git, clone this repo, and let me know how it goes!

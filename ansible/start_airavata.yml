@@ -4,9 +4,9 @@
    tasks:
 
    - name: start zookeeper
-     command: zkServer.sh start
+     command: ./zkServer.sh start
      args:
-       chdir: "{{ zookeeper_dir }}/bin/"
+       chdir: "{{ zookeeper_dir }}bin/"
 
    - name: start airavata (finally!)
      command: sh airavata-server.sh start

@@ -1,0 +1,24 @@
+
+---
+ - hosts: headnode
+   tasks:
+
+   - name: start zookeeper
+     command: zkServer.sh start
+     args:
+       chdir: "{{ zookeeper_dir }}/bin/"
+
+   - name: start airavata (finally!)
+     command: sh airavata-server.sh start
+     args:
+       chdir: "{{ airavata_snap_dir }}bin/"
+#there is probably a better way to do this, but would require a more complex playbook setup
+# so, for now, copy-paste :( - tradeoffs
+   vars:
+     airavata_install_root: /opt/LocalAiravata/
+     airavata_version: 0.16
+     zookeeper_version: 3.4.8
+     airavata_archive_path: "{{ airavata_install_root }}distribution/target/apache-airavata-server-{{ airavata_version }}-SNAPSHOT-bin.tar.gz"
+     airavata_snap_dir: "{{ airavata_install_root }}apache-airavata-server-{{ airavata_version }}-SNAPSHOT/"
+     airavata_keystore: "{{ airavata_snap_dir }}bin/airavata.jks"
+     zookeeper_dir: "{{ airavata_install_root }}zookeeper-{{ zookeeper_version }}/"

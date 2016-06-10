@@ -10,4 +10,13 @@
    - name: build airavata
      command: /bin/bash -c "export MAVEN_OPTS="-Xmx512M"; mvn clean install 2>&1 > airavata_build.log"
      args:
-       chdir: /opt/LocalAiravata
+       chdir: "{{ airavata_install_root }}"
+       creates: "{{ airavata_archive_path }}"
+
+   - name: unpack tar file
+     unarchive: src={{ airavata_archive_path }} dest={{ airavata_install_root }} copy=no
+
+   vars:
+     airavata_install_root: /opt/LocalAiravata
+     airavata_version: 0.16
+     airavata_archive_path: "{{ airavata_install_root }}"/distribution/target/apache-airavata-server-0.16-SNAPSHOT-bin.tar.gz

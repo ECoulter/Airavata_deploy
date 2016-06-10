@@ -6,31 +6,31 @@
 #so, if I do the following three by hand, it WORKS.
 
    - name: ensure rabbitmq server starts on boot
-     command: systemctl enable rabbitmq-server
-#     service: name=rabbitmq-server enabled=yes
+     service: name=rabbitmq-server enabled=yes
+#     command: systemctl enable rabbitmq-server
      
 
    - name: start rabbitmq server
-     command: systemctl start rabbitmq-server
-#     service: name=rabbitmq-server state=started 
+     service: name=rabbitmq-server state=started 
+#     command: systemctl start rabbitmq-server
 
    - name: add rabbbitmq vhost 
-     command: rabbitmqctl add_vhost messaging
-#     rabbitmq_vhost: name=messaging state=present
+     rabbitmq_vhost: name=messaging state=present
+#     command: rabbitmqctl add_vhost messaging
 
    - name: add rabbitmq user (airavata)
-     command: rabbitmqctl add_user airavata airavata 
-#     rabbitmq_user: 
-#       name=airavata 
-#       password=airavata 
-#       vhost=messaging 
-#       configure_priv="."
-#       read_priv="."
-#       write_priv="."
-#       state=present
+     rabbitmq_user: 
+       name=airavata 
+       password=airavata 
+       vhost=messaging 
+       configure_priv="."
+       read_priv="."
+       write_priv="."
+       state=present
+#     command: rabbitmqctl add_user airavata airavata 
 #
-   - name: set rabbitmq user perms
-     command: rabbitmqctl set_permissions -p messaging airavata "." "." ".*"
+#   - name: set rabbitmq user perms
+#     command: rabbitmqctl set_permissions -p messaging airavata "." "." ".*"
   
    - name: start mariadb
      service: name=mariadb state=started

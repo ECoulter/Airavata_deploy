@@ -19,6 +19,7 @@
 #     rabbitmq_vhost: name=messaging state=present
 
    - name: add rabbitmq user (airavata)
+     command: rabbitmqctl add_user airavata airavata 
 #     rabbitmq_user: 
 #       name=airavata 
 #       password=airavata 
@@ -27,6 +28,9 @@
 #       read_priv="."
 #       write_priv="."
 #       state=present
+#
+   - name: set rabbitmq user perms
+     command: rabbitmqctl set_permissions -p messaging airavata "." "." ".*"
   
    - name: start mariadb
      service: name=mariadb state=started

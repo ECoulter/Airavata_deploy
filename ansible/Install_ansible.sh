@@ -1,4 +1,6 @@
 #!/bin/sh
+#NEXT LINE ONLY VIR VIRTUALBOX TEST
+hostnamectl ansiblehost.localdomain
 yum -y install epel-release
 yum -y install python-devel python-pip python-yaml python-jinja2 gcc libffi-devel openssl-devel
 #pexpect has to be 3.3 because new 4.01 version only

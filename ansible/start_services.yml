@@ -73,5 +73,6 @@
     - name: mysql_pass
       prompt: "Enter your mysql root password"
       private: yes
-      deafult: thisisatest111
+      default: thisisatest111
+
 

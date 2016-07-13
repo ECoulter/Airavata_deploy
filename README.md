@@ -26,3 +26,9 @@ To try this out on VirtualBox:
 11.check ip addr when it comes back, should be something like 192.168.56.101
   - You should be able to ssh in to your VM from your standard terminal - the interface through VirtualBox is pretty rough, and hard to get nice features like copy-paste from your host machine working. 
 11. Now, yum install git, clone this repo, and let me know how it goes!
+
+Once you've cloned this repo:
+Find the ./Install_ansible.sh script, and run it. 
+This frequently fails, due to rapid changes in the python library space... Sad. 
+Might have to do some digging; some packages currently installed w/ pip should be using yum instead (just paramiko, currently.).
+If you're feeling lazy, run "Complete_install.sh", and pray. 
